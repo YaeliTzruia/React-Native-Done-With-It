@@ -11,7 +11,6 @@ const validationSchema = Yup.object().shape({
 
 export default function LoginScreen() {
 
-
     return (
         <Screen styles={style.containter}>
             <Image style={style.logo} source={require("../assets/logo-red.png")} />
