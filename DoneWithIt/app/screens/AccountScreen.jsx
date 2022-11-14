@@ -11,20 +11,22 @@ const menuItems = [
         Icon: {
             name: "format-list-bulleted",
             backgroundColor: colors.primary
-        }
+        },
+        // targetScreen: "Messages"
     },
     {
         title: "My Messages",
         Icon: {
             name: "email",
             backgroundColor: colors.secondary
-        }
+        },
+        targetScreen: "Messages"
     }
 ]
 
 
 
-export default function AccountScreen(porps) {
+export default function AccountScreen({ navigation }) {
     return (
         <Screen styles={style.screen}>
             <View style={style.containter}>
@@ -38,8 +40,15 @@ export default function AccountScreen(porps) {
                 <FlatList
                     data={menuItems}
                     keyExtractor={menuItem => menuItem.title}
-                    renderItem={({ item }) =>
-                        <ListItem title={item.title} IconComponent={<Icon name={item.Icon.name} backgroundColor={item.Icon.backgroundColor} />} />}
+                    renderItem={({ item }) => (
+                        <ListItem title={item.title} IconComponent={
+                            <Icon name={item.Icon.name} backgroundColor={item.Icon.backgroundColor}
+                            />
+                        }
+                            onPress={(() => navigation.navigate(item.targetScreen))}
+                        />
+                    )}
+
                     ItemSeparatorComponent={ListItemSeperator}
                 />
             </View>
