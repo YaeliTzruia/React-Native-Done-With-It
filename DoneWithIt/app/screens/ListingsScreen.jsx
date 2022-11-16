@@ -5,37 +5,40 @@ import colors from "../config/colors";
 import routes from "../navigation/routes";
 import listingsApi from "../api/listings"
 import { useEffect, useState } from "react";
+import AppText from "../components/AppText";
+import Button from "../components/AppButton"
+import ActivityIndicator from "../components/ActivityIndicator";
+import useApi from "../hooks/useApi";
 
 
 export default function ListingsScreen({ navigation }) {
 
-    const [listings, setListings] = useState([])
+    const getListingsApi = useApi(listingsApi.getListings)
 
     useEffect(() => {
-        loadListings()
-        console.log(listingsApi, "listingsApi")
+        getListingsApi.request()
+
     }, []);
 
 
-    const loadListings = async () => {
-        const response = await listingsApi.getListings()
-        console.log(response.data, "response.data")
-        setListings(response.data)
 
 
-    }
 
     return (
         <Screen styles={style.screen}>
+            {getListingsApi.error && <>
+                <AppText>Couldn't retreve the listings.</AppText>
+                <Button title="Retry" onPress={getListingsApi.loadListings} /></>}
+            <ActivityIndicator visible={getListingsApi.loading} />
             <FlatList
-                data={listings}
+                data={getListingsApi.data}
                 keyExtractor={listing => listing.id.toString()}
                 renderItem={({ item }) =>
                     <Card
                         onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
                         title={item.title}
                         subTitle={"$" + item.price}
-                        imageUrl={item.image[0].url}
+                        imageUrl={item.images[0].url}
                     />
                 }
             />

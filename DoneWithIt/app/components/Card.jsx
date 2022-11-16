@@ -5,11 +5,14 @@ import AppText from "./AppText";
 
 export default function Card({ title, subTitle, imageUrl, onPress }) {
 
+    console.log(imageUrl, "image")
     return (
         <TouchableWithoutFeedback onPress={onPress}>
             <View style={style.card}>
 
-                <Image style={style.image} source={{ uri: imageUrl }} />
+                <Image style={style.image} source={{
+                    uri: imageUrl
+                }} />
                 <View style={style.detailsContainter}>
                     <AppText styles={style.title}>{title}</AppText>
                     <AppText styles={style.subTitle}>{subTitle}</AppText>
